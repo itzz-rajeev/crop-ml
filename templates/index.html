@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Crop Recommendation System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>🌾 Crop Recommendation System</h1>
+        <form action="/predict" method="post">
+            <label for="N">Nitrogen (N):</label>
+            <input type="text" name="N" required><br><br>
+
+            <label for="P">Phosphorus (P):</label>
+            <input type="text" name="P" required><br><br>
+
+            <label for="K">Potassium (K):</label>
+            <input type="text" name="K" required><br><br>
+
+            <label for="ph">Soil pH:</label>
+            <input type="text" name="ph" required><br><br>
+
+            <label for="city">City:</label>
+            <input type="text" name="city" placeholder="Enter City Name" required><br><br>
+
+            <button type="submit">Predict</button>
+        </form>
+
+        {% if final_crop %}
+            <h2>📍 Location: {{ city }}</h2>
+
+            <!-- ✅ Weather Display -->
+            <h3>🌦️ Weather Conditions:</h3>
+            <ul>
+                <li>🌡️ Temperature: {{ temperature }} °C</li>
+                <li>💧 Humidity: {{ humidity }} %</li>
+                <li>☔ Rainfall (last 1h): {{ rainfall }} mm</li>
+                <!-- <li>🌱 Soil: N={{N}}, P={{P}}, K={{K}}, pH={{ph}}</li> -->
+            </ul>
+
+            <h3>📊 Model-wise Predictions:</h3>
+            <table border="1" cellpadding="5" cellspacing="0" style="margin:auto; text-align:center;">
+                <tr>
+                    <th>Model</th>
+                    <th>Predicted Crop</th>
+                </tr>
+                {% for model, crop in predictions.items() %}
+                <tr {% if crop == final_crop %} style="background-color:#d4edda; font-weight:bold;" {% endif %}>
+                    <td>{{ model }}</td>
+                    <td>{{ crop }}</td>
+                </tr>
+                {% endfor %}
+
+                <!-- Highlight final crop row -->
+                <tr style="background-color: #28a745; color: white; font-weight: bold;">
+                    <td colspan="2">🌱 Final Recommended Crop: {{ final_crop }}</td>
+                </tr>
+            </table>
+
+            <!-- ❌ Why not other crops -->
+            <!-- <h3 style="color:red;">⚠️ Why not other crops?</h3>
+            <ul>
+                {% for crop, reason in reasons.items() %}
+                    {% if crop != final_crop %}
+                        <li><b>{{ crop.capitalize() }}</b>: {{ reason }}</li>
+                    {% endif %}
+                {% endfor %}
+            </ul> -->
+        {% endif %}
+    </div>
+</body>
+</html>

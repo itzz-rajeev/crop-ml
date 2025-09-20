@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Prediction Result</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #eef6ee; padding: 20px; }
+        .container { background: #fff; padding: 20px; border-radius: 10px; max-width: 600px; margin: auto; box-shadow: 0px 4px 6px rgba(0,0,0,0.1); }
+        h2 { color: darkgreen; }
+        ul { list-style: none; padding: 0; }
+        li { margin-bottom: 10px; }
+        strong { color: brown; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>✅ Recommended Crop: {{ crop }}</h2>
+        <h3>⚠️ Why not other crops?</h3>
+        <ul>
+            {% for crop, reason in unsuitable.items() %}
+            <li><strong>{{ crop }}</strong>: {{ reason }}</li>
+            {% endfor %}
+        </ul>
+        <a href="/">🔙 Back</a>
+    </div>
+</body>
+</html>
